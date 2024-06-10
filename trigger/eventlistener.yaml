@@ -1,0 +1,18 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: listener-tekton-cicd
+spec:
+  serviceAccountName: sa-tekton-example
+  triggers:
+    - name: listener-tekton-cicd
+      interceptors:
+        - ref:
+            name: "github"
+          params:
+            - name: "eventTypes"
+              value: ["push"]
+      bindings:
+        - ref: trigger-binding-tekton-cicd
+      template:
+        ref: trigger-template-tekton-cicd
